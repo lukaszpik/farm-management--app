@@ -6,6 +6,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin
       POSTGRES_DB: farm-management
+    ports:
+      - 5432:5432
     volumes:
       - management-app:/var/lib/postgresql/data
       - ./backend/database/farm_management.sql:/docker-entrypoint-initdb.d/farm_management.sql
