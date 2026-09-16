@@ -1,4 +1,5 @@
 import psycopg
+from psycopg.rows import dict_row
 
 
 connection = psycopg.connect(
@@ -6,8 +7,8 @@ connection = psycopg.connect(
     port=5432,
     dbname="farm-management",
     user="postgres",
-    password="admin"
+    password="admin",
+    row_factory=dict_row
 )
 
 print("Connected with database successfully.")
-connection.close()
