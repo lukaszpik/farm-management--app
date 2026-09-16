@@ -1,0 +1,30 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: pg_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: farm-management
+    volumes:
+      - management-app:/var/lib/postgresql/data
+      - ./backend/database/farm_management.sql:/docker-entrypoint-initdb.d/farm_management.sql
+    networks:
+      - farm_man
+
+  pgadmin:
+    image: elestio/pgadmin
+    container_name: pgconsole
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - 1010:80
+    networks:
+      - farm_man
+
+volumes:
+  management-app:
+
+networks:
+  farm_man:
