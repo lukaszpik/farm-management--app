@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from ..repositories import repo_fieldwork
-from ..schemas import Fieldwork, FieldworkAdd, FieldUpdate
+from ..schemas import Fieldwork, FieldworkAdd, FieldworkUpdate
 
 fieldwork = APIRouter(prefix="/farms/{farm_id}/fields/{field_id}/fieldworks")
 
@@ -16,13 +16,13 @@ def get_fieldwork(farm_id: int, field_id: int, type_of_work: str):
 def add_fieldwork(farm_id: int, field_id: int, fieldwork: FieldworkAdd):
     return repo_fieldwork.add_fieldwork(farm_id, field_id, fieldwork)
 
-@fieldwork.patch("/{fieldwork_id}", response_model=Fieldwork)
-def update_fieldwork(farm_id: int, field_id: int, fieldwork_id: int, fieldwork: Fieldwork):
+@fieldwork.patch("/{fieldwork_id}", response_model=FieldworkUpdate)
+def update_fieldwork(farm_id: int, field_id: int, fieldwork_id, fieldwork: FieldworkUpdate):
     return repo_fieldwork.update_fieldwork(farm_id, field_id, fieldwork_id, fieldwork)
 
 @fieldwork.delete("/{id}")
-def delete_fieldwork(farm_id: int, field_id: int, fieldwork_id: int):
-    return repo_fieldwork.delete_fieldwork(farm_id, field_id, fieldwork_id)
+def delete_fieldwork(farm_id: int, field_id: int, id: int):
+    return repo_fieldwork.delete_fieldwork(farm_id, field_id, id)
 
 
 

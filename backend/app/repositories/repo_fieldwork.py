@@ -18,7 +18,7 @@ def get_fieldwork(farm_id: int, field_id: int, type_of_work: str):
             (farm_id, field_id, type_of_work))
         result = cursor.fetchall()
         if result is None:
-            raise HTTPException(status_code=404, detail=f"Fieldwork with ID {fieldwork_id} not found.")
+            raise HTTPException(status_code=404, detail=f"Fieldwork with ID {id} not found.")
     return result
 
 
@@ -83,16 +83,16 @@ def update_fieldwork(farm_id: int, field_id: int, fieldwork_id: int, fieldwork: 
     return {"message": f"Successfully updated fieldwork with ID {fieldwork_id}."}
 
 
-def delete_fieldwork(farm_id: int, field_id: int, fieldwork_id: int):
+def delete_fieldwork(farm_id: int, field_id: int, id: int):
     try:
         with connection.cursor() as cursor:
             cursor.execute(
                 "DELETE FROM fieldwork fw USING fields f WHERE fw.field_id = f.field_id AND f.farm_id = %s AND fw.field_id = %s AND fw.id = %s",
-                (farm_id, field_id, fieldwork_id))
+                (farm_id, field_id, id))
 
             if cursor.rowcount == 0:
                 connection.rollback()
-                raise HTTPException(status_code=404, detail=f"Fieldwork with ID {fieldwork_id} not found.")
+                raise HTTPException(status_code=404, detail=f"Fieldwork with ID {id} not found.")
             connection.commit()
 
     except HTTPException:
@@ -102,4 +102,4 @@ def delete_fieldwork(farm_id: int, field_id: int, fieldwork_id: int):
         connection.rollback()
         raise HTTPException(status_code=500, detail=f"Error deleting fieldwork: {str(ex)}")
 
-    return {"message": f"Fieldwork with ID {fieldwork_id} deleted successfully."}
+    return {"message": f"Fieldwork with ID {id} deleted successfully."}
