@@ -15,7 +15,7 @@ def get_animal(farm_id: int, animal_id: int):
     with connection.cursor() as cursor:
         cursor.execute("SELECT * FROM animals WHERE farm_id = %s AND id = %s", (farm_id, animal_id))
         result = cursor.fetchone()
-        if result is None:
+        if not result:
             raise HTTPException(status_code=404, detail=f"Animal with ID {animal_id} not found.")
         
     return result

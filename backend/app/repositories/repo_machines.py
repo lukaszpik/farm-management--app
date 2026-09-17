@@ -15,7 +15,7 @@ def get_machine(farm_id: int, type: str):
     with connection.cursor() as cursor:
         cursor.execute("SELECT * FROM machines WHERE farm_id = %s AND type = %s", (farm_id, type))
         result = cursor.fetchall()
-        if result is None:
+        if not result:
             raise HTTPException(status_code=404, detail=f"Machine  with type {type} not found.")
         
     return result

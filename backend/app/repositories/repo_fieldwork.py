@@ -17,7 +17,7 @@ def get_fieldwork(farm_id: int, field_id: int, type_of_work: str):
             "SELECT fw.* FROM fieldwork fw JOIN fields f ON fw.field_id = f.field_id WHERE f.farm_id = %s AND fw.field_id = %s AND fw.type_of_work = %s", 
             (farm_id, field_id, type_of_work))
         result = cursor.fetchall()
-        if result is None:
+        if not result:
             raise HTTPException(status_code=404, detail=f"Fieldwork with ID {id} not found.")
     return result
 

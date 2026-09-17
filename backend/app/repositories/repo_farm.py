@@ -6,8 +6,8 @@ def create_farm(farm: FarmCreate):
     try:
         with connection.cursor() as cursor:
             cursor.execute(
-                "INSERT INTO farm (name, fid_number, position, info) VALUES (%s, %s, %s, %s) RETURNING *",
-                (farm.name, farm.fid_number, farm.position, farm.info)
+                "INSERT INTO farm (name, fid_numer, position, info) VALUES (%s, %s, %s, %s) RETURNING *",
+                (farm.name, farm.fid_numer, farm.position, farm.info)
             )
             result = cursor.fetchone()
             connection.commit()

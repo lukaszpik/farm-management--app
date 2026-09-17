@@ -66,7 +66,6 @@ class FieldCreate(BaseModel):
     area: float
 
 class FieldUpdate(BaseModel):
-    field_id: int | None = None
     type: str | None = None
     position: str | None = None
     area: float | None = None

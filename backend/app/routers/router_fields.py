@@ -16,7 +16,7 @@ def get_field(farm_id: int, field_id: int):
 def add_field(farm_id: int, field: FieldCreate):
     return repo_fields.add_field(farm_id, field)
 
-@field.patch("/{type_of_work}", response_model=Field)
+@field.patch("/{field_id}", response_model=Field)
 def update_field(farm_id: int, field_id: int, field: FieldUpdate):
     return repo_fields.update_field(farm_id, field_id, field)
 

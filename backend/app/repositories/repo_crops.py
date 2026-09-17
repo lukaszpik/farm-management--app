@@ -17,7 +17,7 @@ def get_crop(farm_id: int, field_id: int, name: str):
             "SELECT cr.* FROM crops cr JOIN fields f ON cr.field_id = f.field_id WHERE f.farm_id = %s AND cr.field_id = %s AND cr.name = %s", 
             (farm_id, field_id, name))
         result = cursor.fetchall()
-        if result is None:
+        if not result:
             raise HTTPException(status_code=404, detail=f"Crop with name {name} not found.")
     return result
 
