@@ -70,3 +70,31 @@ class FieldUpdate(BaseModel):
     type: str | None = None
     position: str | None = None
     area: float | None = None
+
+## FIELDWORK
+
+class Fieldwork(BaseModel):
+    farm_id: int
+    field_id: int   
+    id: int
+    type_of_fieldwork: str
+    category: str
+    method: str
+    date: date
+    cost: float
+
+class FieldworkAdd(BaseModel):
+    farm_id: int
+    field_id: int
+    type_of_fieldwork: str
+    category: str
+    method: str
+    date: date
+    cost: float
+
+class FieldworkUpdate(BaseModel):
+    type_of_fieldwork: str | None = None
+    category: str | None = None
+    method: str | None = None
+    date: date | None = None
+    cost: float | None = None
