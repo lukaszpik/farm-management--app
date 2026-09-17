@@ -45,7 +45,7 @@ def update_field(farm_id: int, field_id: int, field: FieldUpdate):
 
     values.append(field_id)
     values.append(farm_id)
-    query = f"UPDATE fields SET {', '.join(fields)} WHERE farm_id = %s AND field_id = %s"
+    query = f"UPDATE fields SET {', '.join(fields)} WHERE farm_id = %s AND field_id = %s RETURNING *"
 
     try:
         with connection.cursor() as cursor:

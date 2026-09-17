@@ -16,10 +16,10 @@ def get_field(farm_id: int, field_id: int):
 def add_field(farm_id: int, field: FieldCreate):
     return repo_fields.add_field(farm_id, field)
 
-@field.put("/{field_id}", response_model=dict)
+@field.patch("/{type_of_work}", response_model=Field)
 def update_field(farm_id: int, field_id: int, field: FieldUpdate):
     return repo_fields.update_field(farm_id, field_id, field)
 
-@field.delete("/{field_id}", response_model=dict)
+@field.delete("/{field_id}")
 def delete_field(farm_id: int, field_id: int):
     return repo_fields.delete_field(farm_id, field_id)

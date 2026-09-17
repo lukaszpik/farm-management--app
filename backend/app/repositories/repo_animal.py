@@ -1,6 +1,6 @@
 from fastapi import HTTPException
 from ..database import connection
-from ..schemas import Aniaml, AnimalCreate, AnimalUpdate
+from ..schemas import Animal, AnimalCreate, AnimalUpdate
 
 
 

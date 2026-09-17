@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from datetime import date
+import datetime
 
 ## FARMS
 
@@ -31,7 +31,7 @@ class Animal(BaseModel):
     race: str
     utility: str
     sex: str
-    date_of_birth: date
+    date_of_birth: datetime.date
 
 class AnimalCreate(BaseModel):
     farm_id: int
@@ -40,7 +40,7 @@ class AnimalCreate(BaseModel):
     race: str
     utility: str
     sex: str
-    date_of_birth: date
+    date_of_birth: datetime.date
 
 class AnimalUpdate(BaseModel):
     aid_numer: str | None = None
@@ -48,7 +48,7 @@ class AnimalUpdate(BaseModel):
     race: str | None = None
     utility: str | None = None
     sex: str | None = None
-    date_of_birth: date | None = None
+    date_of_birth: datetime.date | None = None
 
 ##FIELDS
 
@@ -74,27 +74,21 @@ class FieldUpdate(BaseModel):
 ## FIELDWORK
 
 class Fieldwork(BaseModel):
-    farm_id: int
     field_id: int   
     id: int
-    type_of_fieldwork: str
-    category: str
+    type_of_work: str
     method: str
-    date: date
+    date: datetime.date
     cost: float
 
 class FieldworkAdd(BaseModel):
-    farm_id: int
-    field_id: int
-    type_of_fieldwork: str
-    category: str
+    type_of_work: str
     method: str
-    date: date
+    date: datetime.date
     cost: float
 
 class FieldworkUpdate(BaseModel):
-    type_of_fieldwork: str | None = None
-    category: str | None = None
+    type_of_work: str | None = None
     method: str | None = None
-    date: date | None = None
+    date: datetime.date | None = None
     cost: float | None = None
