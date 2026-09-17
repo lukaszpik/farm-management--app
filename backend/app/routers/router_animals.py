@@ -1,26 +1,30 @@
 from fastapi import APIRouter
 from ..repositories import repo_animal
-from ..schemas import Animal, AnimalCreate,  AnimalUpdate
+from ..schemas import Animal, AnimalCreate, AnimalUpdate
 
-animal = APIRouter(prefix="/animals")
+animal = APIRouter(prefix="/farms/{farm_id}/animals")
+
 
 @animal.get("/", response_model=list[Animal])
-def get_all_animals():
-    return repo_animal.get_all_animals()
+def get_all_animals(farm_id: int):
+    return repo_animal.get_all_animals(farm_id)
+
 
 @animal.get("/{animal_id}", response_model=Animal)
-def get_animal(animal_id: int):
-    return repo_animal.get_animal(animal_id)
+def get_animal(farm_id: int, animal_id: int):
+    return repo_animal.get_animal(farm_id, animal_id)
+
 
 @animal.post("/", response_model=Animal)
-def add_animal(animal: AnimalCreate):
-    return repo_animal.add_animal(animal)
+def add_animal(farm_id: int, animal: AnimalCreate):
+    return repo_animal.add_animal(farm_id, animal)
 
-@animal.patch("/{animal_id}", response_model=AnimalUpdate)
-def update_animal(animal_id: int, animal: AnimalUpdate):
-    return repo_animal.update_animal(animal_id, animal)
+
+@animal.patch("/{animal_id}")
+def update_animal(farm_id: int, animal_id: int, animal: AnimalUpdate):
+    return repo_animal.update_animal(farm_id, animal_id, animal)
+
 
 @animal.delete("/{animal_id}")
-def delete_animal(animal_id: int):
-    return repo_animal.delete_animal(animal_id)
-
+def delete_animal(farm_id: int, animal_id: int):
+    return repo_animal.delete_animal(farm_id, animal_id)
