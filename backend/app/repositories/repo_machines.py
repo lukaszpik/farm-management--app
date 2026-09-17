@@ -1,6 +1,6 @@
 from fastapi import HTTPException
 from ..database.database import connection
-from ..schemas.schemas import Machines, MachineAdd, MachineUpdate
+from ..schemas.schemas import MachineAdd, MachineUpdate
 
 
 

@@ -1,6 +1,6 @@
 from fastapi import HTTPException
 from ..database.database import connection
-from ..schemas.schemas import Fieldwork, FieldworkAdd, FieldworkUpdate
+from ..schemas.schemas import FieldworkAdd, FieldworkUpdate
 
 
 def get_all_fieldworks(farm_id: int, field_id: int):

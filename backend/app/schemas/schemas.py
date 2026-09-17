@@ -135,3 +135,38 @@ class MachineUpdate(BaseModel):
     name: str | None = None
     model: str | None = None
     manufacture: int | None = None
+
+## FINANCIAL RECORDS
+
+class FinancialRecords(BaseModel):
+    id: int
+    farm_id: int
+    type: str
+    category: str
+    amount: float
+    performer: str
+    date: datetime.date
+    info: str 
+
+
+class FinancialRecordAdd(BaseModel):
+    type: str
+    category: str
+    amount: float
+    performer: str
+    date: datetime.date
+    info: str 
+
+
+class FinancialRecordUpdate(BaseModel):
+    type: str | None = None
+    category: str | None = None
+    amount: float | None = None
+    performer: str | None = None
+    date: datetime.date | None = None
+    info: str | None = None
+
+
+class FinancialSummary(BaseModel):
+    income: float | None = None
+    costs: float | None = None
