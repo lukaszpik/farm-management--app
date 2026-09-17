@@ -92,3 +92,46 @@ class FieldworkUpdate(BaseModel):
     method: str | None = None
     date: datetime.date | None = None
     cost: float | None = None
+
+## CROPS
+
+class Crops(BaseModel):
+    id: int
+    field_id: int
+    name: str
+    type: str
+    area: float
+    year: int
+
+class CropsAdd(BaseModel):
+    name: str
+    type: str
+    area: float
+    year: int
+
+class CropsUpdate(BaseModel):
+    name: str | None = None
+    type: str | None = None
+    area: float | None = None
+    year: int | None = None
+
+## MACHINES
+
+class Machines(BaseModel):
+    id: int
+    type: str
+    name: str
+    model: str
+    manufacture: int
+
+class MachineAdd(BaseModel):
+    type: str
+    name: str
+    model: str
+    manufacture: int
+
+class MachineUpdate(BaseModel):
+    type: str | None = None
+    name: str | None = None
+    model: str | None = None
+    manufacture: int | None = None
