@@ -1,6 +1,6 @@
-from ..database import connection
+from ..database.database import connection
 from fastapi import HTTPException
-from ..schemas import Farm, FarmUpdate, FarmCreate
+from ..schemas.schemas import Farm, FarmUpdate, FarmCreate
 
 def create_farm(farm: FarmCreate):
     try:

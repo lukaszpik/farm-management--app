@@ -1,6 +1,6 @@
-from ..database import connection
+from ..database.database import connection
 from fastapi import HTTPException
-from ..schemas import Field, FieldUpdate, FieldCreate
+from ..schemas.schemas import Field, FieldUpdate, FieldCreate
 
 def get_all_fields(farm_id: int):
     with connection.cursor() as cursor:

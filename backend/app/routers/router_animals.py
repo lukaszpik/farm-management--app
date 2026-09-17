@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from ..repositories import repo_animal
-from ..schemas import Animal, AnimalCreate, AnimalUpdate
+from ..schemas.schemas import Animal, AnimalCreate, AnimalUpdate
 
 animal = APIRouter(prefix="/farms/{farm_id}/animals")
 

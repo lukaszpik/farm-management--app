@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from ..repositories import repo_fieldwork
-from ..schemas import Fieldwork, FieldworkAdd, FieldworkUpdate
+from ..schemas.schemas import Fieldwork, FieldworkAdd, FieldworkUpdate
 
 fieldwork = APIRouter(prefix="/farms/{farm_id}/fields/{field_id}/fieldworks")
 

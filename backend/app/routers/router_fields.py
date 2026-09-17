@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from ..repositories import repo_fields
-from ..schemas import Field, FieldCreate, FieldUpdate
+from ..schemas.schemas import Field, FieldCreate, FieldUpdate
 
 field = APIRouter(prefix="/farms/{farm_id}/fields")
 
