@@ -1,24 +1,25 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field as PField
+from typing import Literal
 import datetime
 
 ## FARMS
 
 class Farm(BaseModel):
     farm_id: int
-    name: str
-    fid_numer: int
-    position: str
-    info: str
+    name: str = PField(min_length=1)
+    fid_numer: int = PField(gt=0)
+    position: str = PField(min_length=3)
+    info: str 
 
 class FarmCreate(BaseModel):
-    name: str
-    fid_numer: int
-    position: str
+    name: str = PField(min_length=1)
+    fid_numer: int = PField(gt=0)
+    position: str = PField(min_length=3)
     info: str
 
 class FarmUpdate(BaseModel):
-    name: str | None = None
-    fid_numer: int | None = None
+    name: str | None = PField(default=None, min_length=1)
+    fid_numer: int | None = PField(default=None, gt=0)
     position: str | None = None
     info: str | None = None
 
@@ -26,141 +27,141 @@ class FarmUpdate(BaseModel):
 
 class Animal(BaseModel):
     id: int
-    aid_numer: str
-    kind: str
-    race: str
-    utility: str
-    sex: str
+    aid_numer: str = PField(min_length=3)
+    kind: Literal["bydlo", "swinie", "konie", "owce", "kozy"]
+    race: str = PField(min_length=2)
+    utility: Literal["miesny", "mleczny", "ogolnouzytkowy"]
+    sex: Literal["samiec",'samica']
     date_of_birth: datetime.date
 
 class AnimalCreate(BaseModel):
-    farm_id: int
-    aid_numer: str
-    kind: str
-    race: str
-    utility: str
-    sex: str
+    farm_id: int = PField(gt=0)
+    aid_numer: str = PField(min_length=3)
+    kind: Literal["bydlo", "swinie", "konie", "owce", "kozy"]
+    race: str = PField(min_length=2)
+    utility: Literal["miesny", "mleczny", "ogolnouzytkowy"]
+    sex: Literal["samiec",'samica']
     date_of_birth: datetime.date
 
 class AnimalUpdate(BaseModel):
-    aid_numer: str | None = None
-    kind: str | None = None
-    race: str | None = None
-    utility: str | None = None
-    sex: str | None = None
+    aid_numer: str | None = PField(default=None, min_length=3)
+    kind: str | None = Literal["bydlo", "swinie", "konie", "owce", "kozy"]
+    race: str | None = PField(default=None, min_length=2)
+    utility: str | None = Literal["miesny", "mleczny", "ogolnouzytkowy"]
+    sex: str | None = Literal["samiec",'samica']
     date_of_birth: datetime.date | None = None
 
 ##FIELDS
 
 class Field(BaseModel):
-    field_id: int
-    farm_id: int
-    type: str
+    field_id: int 
+    farm_id: int = PField(gt=0)
+    type: Literal["grunty_orne", "laka", "sad"]
     position: str
-    area: float
+    area: float = PField(gt=0)
 
 class FieldCreate(BaseModel):
-    farm_id: int
-    type: str
-    position: str
-    area: float
+    farm_id: int 
+    type: Literal["grunty_orne", "laka", "sad"]
+    position: str 
+    area: float = PField(gt=0)
 
 class FieldUpdate(BaseModel):
-    type: str | None = None
+    type: Literal["grunty_orne", "laka", "sad"] | None = None
     position: str | None = None
-    area: float | None = None
+    area: float | None = PField(default=None, gt=0)
 
 ## FIELDWORK
 
 class Fieldwork(BaseModel):
-    field_id: int   
+    field_id: int = PField(gt=0)
     id: int
-    type_of_work: str
-    method: str
+    type_of_work: str 
+    method: str = Literal["wlasna", "usluga_zewnetrzna"]
     date: datetime.date
-    cost: float
+    cost: float = PField(gt=0)
 
 class FieldworkAdd(BaseModel):
-    type_of_work: str
-    method: str
+    type_of_work: str 
+    method: str = Literal["wlasna", "usluga_zewnetrzna"]
     date: datetime.date
-    cost: float
+    cost: float = PField(gt=0)
 
 class FieldworkUpdate(BaseModel):
     type_of_work: str | None = None
-    method: str | None = None
+    method: Literal["wlasna", "usluga_zewnetrzna"] | None = None
     date: datetime.date | None = None
-    cost: float | None = None
+    cost: float | None = PField(default=None,gt=0)
 
 ## CROPS
 
 class Crops(BaseModel):
     id: int
     field_id: int
-    name: str
-    type: str
-    area: float
-    year: int
+    name: str = PField(min_length=3)
+    type: str = PField(min_length=3)
+    area: float = PField(gt=0)
+    year: int = PField(gt=1900)
 
 class CropsAdd(BaseModel):
-    name: str
-    type: str
-    area: float
-    year: int
+    name: str = PField(min_length=3)
+    type: str = PField(min_length=3)
+    area: float = PField(gt=0)
+    year: int = PField(gt=1900)
 
 class CropsUpdate(BaseModel):
-    name: str | None = None
-    type: str | None = None
-    area: float | None = None
-    year: int | None = None
+    name: str | None = PField(default=None, min_length=3)
+    type: str | None = PField(default=None, min_length=3)
+    area: float | None = PField(default=None, gt=0)
+    year: int | None = PField(default=None, gt=1900)
 
 ## MACHINES
 
 class Machines(BaseModel):
     id: int
-    type: str
-    name: str
-    model: str
-    manufacture: int
+    type: str = PField(min_length=3) 
+    name: str = PField(min_length=3)
+    model: str = PField(min_length=3)
+    manufacture: int = PField(gt=1900)
 
 class MachineAdd(BaseModel):
-    type: str
-    name: str
-    model: str
-    manufacture: int
+    type: str = PField(min_length=3) 
+    name: str = PField(min_length=3)
+    model: str = PField(min_length=3)
+    manufacture: int = PField(gt=1900)
 
 class MachineUpdate(BaseModel):
-    type: str | None = None
-    name: str | None = None
-    model: str | None = None
-    manufacture: int | None = None
+    type: str | None = PField(default=None, min_length=3)
+    name: str | None = PField(default=None, min_length=3)
+    model: str | None = PField(default=None, min_length=3)
+    manufacture: int | None = PField(default=None, gt=1900)
 
 ## FINANCIAL RECORDS
 
 class FinancialRecords(BaseModel):
     id: int
     farm_id: int
-    type: str
-    category: str
-    amount: float
+    type: Literal["przychod", "koszt"]
+    category: str 
+    amount: float = PField(gt=0)
     performer: str
     date: datetime.date
     info: str 
 
 
 class FinancialRecordAdd(BaseModel):
-    type: str
+    type: Literal["przychod", "koszt"]
     category: str
-    amount: float
+    amount: float = PField(gt=0)
     performer: str
     date: datetime.date
     info: str 
 
 
 class FinancialRecordUpdate(BaseModel):
-    type: str | None = None
+    type: Literal["przychod", "koszt"] | None = None
     category: str | None = None
-    amount: float | None = None
+    amount: float | None = PField(default=None, gt=0)
     performer: str | None = None
     date: datetime.date | None = None
     info: str | None = None
