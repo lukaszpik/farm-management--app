@@ -1,8 +1,6 @@
-import stat
-
 from fastapi.testclient import TestClient
 from main import app
-from backend.app.database.database import connection
+from app.database.database import connection
 
 client = TestClient(app)
 
@@ -713,7 +711,3 @@ def test_get_all_financial_records():
 
     data = response.json()
     assert isinstance(data, list)
-
-
-
-

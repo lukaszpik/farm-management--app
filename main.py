@@ -1,9 +1,9 @@
 from fastapi import FastAPI
-from backend.app.routers import router_farm, router_animals, router_fields, router_fieldwork, router_crops, router_machines, router_finances
+from app.routers import router_animals, router_crops, router_farm, router_fields, router_fieldwork, router_finances
+from app.routers import router_machines
 from pathlib import Path
 from fastapi.staticfiles import StaticFiles
 from fastapi.openapi.docs import get_swagger_ui_html
-from fastapi.responses import HTMLResponse
 
 app = FastAPI(
     title="Farm Management API",
@@ -18,7 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent
 app.mount(
     "/static",
     StaticFiles(
-        directory=BASE_DIR / "backend" / "app" / "static"
+        directory=BASE_DIR / "app" / "static"
     ),
     name="static"
 )
