@@ -499,6 +499,141 @@ def test_delete_field():
 
 ## FIELDWORK
 
+def test_get_all_fieldworks():
+    response = client.get("/farms/1/fields/1/fieldworks/")
+    assert response.status_code == 200
+    data =  response.json()
+    assert isinstance(data, list)
+
+
+def test_add_fieldwork():
+    fieldwork_data = {
+        "type_of_work": "talerzowanie",
+        "method": "agregat talerzowy",
+        "cost": 250.50,
+        "date": "2026-09-18"
+    }
+
+    response = client.post("/farms/1/fields/1/fieldworks/", json=fieldwork_data)
+    assert response.status_code == 200
+    data = response.json()
+
+    assert data["type_of_work"] == "talerzowanie"
+    assert data["method"] == "agregat talerzowy"
+    assert data["cost"] == 250.50
+    assert data["date"] == "2026-09-18"
+
+    assert "id" in data
+
+
+def test_add_fieldwork_missing_field():
+    fieldwork_data = {
+        "method": "agregat talerzowy",
+        "cost": 250.50,
+        "date": "2026-09-18"
+    }
+
+    response = client.post("/farms/1/fields/1/fieldworks/", json=fieldwork_data)
+    assert response.status_code == 422
+
+
+def test_add_fieldwork_to_nonexistent_field():
+    fieldwork_data = {
+        "type_of_work": "talerzowanie",
+        "method": "agregat talerzowy",
+        "cost": 250.50,
+        "date": "2026-09-18"
+    }
+
+    response = client.post("/farms/1/fields/999999/fieldworks/", json=fieldwork_data)
+    assert response.status_code == 404
+
+
+def test_get_fieldwork():
+    fieldwork_data = {
+        "type_of_work": "orka",
+        "method": "pług",
+        "cost": 300,
+        "date": "2026-09-18"
+    }
+
+    add_response = client.post("/farms/1/fields/1/fieldworks/", json=fieldwork_data)
+    assert add_response.status_code == 200
+
+    fieldwork_id = add_response.json()["id"]
+    response = client.get(f"/farms/1/fields/1/fieldworks/{fieldwork_id}")
+    assert response.status_code == 200
+
+    data = response.json()
+    assert data["id"] == fieldwork_id
+    assert data["type_of_work"] == "orka"
+
+
+def test_get_nonexistent_fieldwork():
+    response = client.get(
+        "/farms/1/fields/1/fieldworks/999999"
+    )
+    assert response.status_code == 404
+
+
+def test_update_fieldwork():
+    fieldwork_data = {
+        "type_of_work": "bronowanie",
+        "method": "brona",
+        "cost": 150,
+        "date": "2026-09-18"
+    }
+
+    add_response = client.post("/farms/1/fields/1/fieldworks/", json=fieldwork_data)
+    assert add_response.status_code == 200
+
+    fieldwork_id = add_response.json()["id"]
+    update_data = {
+        "cost": 200
+    }
+
+    response = client.patch(
+        f"/farms/1/fields/1/fieldworks/{fieldwork_id}",
+        json=update_data
+    )
+    assert response.status_code == 200
+
+
+def test_update_nonexistent_fieldwork():
+    update_data = {
+        "cost": 200
+    }
+
+    response = client.patch("/farms/1/fields/1/fieldworks/999999", json=update_data)
+    assert response.status_code == 404
+
+
+def test_delete_fieldwork():
+    fieldwork_data = {
+        "type_of_work": "siew",
+        "method": "siewnik",
+        "cost": 400,
+        "date": "2026-09-18"
+    }
+
+    add_response = client.post(
+        "/farms/1/fields/1/fieldworks/",
+        json=fieldwork_data
+    )
+    assert add_response.status_code == 200
+
+    fieldwork_id = add_response.json()["id"]
+    response = client.delete(f"/farms/1/fields/1/fieldworks/{fieldwork_id}")
+    assert response.status_code == 200
+
+    response = client.get(f"/farms/1/fields/1/fieldworks/{fieldwork_id}")
+    assert response.status_code == 404
+
+
+def test_delete_nonexistent_fieldwork():
+    response = client.delete("/farms/1/fields/1/fieldworks/999999")
+
+    assert response.status_code == 404
 
 
 

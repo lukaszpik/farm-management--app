@@ -1,0 +1,645 @@
+html {
+    box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+body {
+    margin: 0;
+    background: #f5f7f4;
+    color: #26332a;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+}
+
+/* =========================================================
+   SWAGGER CONTAINER — FULL WIDTH
+   ========================================================= */
+
+.swagger-ui {
+    width: 100%;
+    max-width: none !important;
+    margin: 0;
+    padding: 0 35px 50px;
+}
+
+.swagger-ui .wrapper {
+    width: auto !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.swagger-ui .opblock-tag-section {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+.swagger-ui .opblock {
+    position: relative;
+    width: 100% !important;
+    max-width: none !important;
+    display: block;
+    margin: 14px 0;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(30, 50, 35, 0.04), 0 8px 24px rgba(30, 50, 35, 0.05);
+    transition: box-shadow 0.18s ease, transform 0.18s ease, border-color 0.18s ease;
+}
+
+.swagger-ui .opblock:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 7px rgba(30, 50, 35, 0.06), 0 12px 30px rgba(30, 50, 35, 0.08);
+}
+
+.swagger-ui .opblock-body {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 18px 25px 25px !important;
+    border-top: 1px solid rgba(80, 100, 85, 0.10);
+    box-sizing: border-box;
+}
+
+.swagger-ui .opblock-body > .opblock-section {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+.swagger-ui .responses-wrapper {
+    width: 100% !important;
+}
+
+.swagger-ui .responses-inner {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 10px 20px;
+}
+
+/* =========================================================
+   TOP BAR
+   ========================================================= */
+
+.swagger-ui .topbar {
+    background: linear-gradient(135deg, #2f6b3f, #3f8750);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    padding: 14px 0;
+}
+
+.swagger-ui .topbar .download-url-wrapper {
+    display: none;
+}
+
+.swagger-ui .topbar .link {
+    color: white;
+}
+
+.swagger-ui .topbar .link span {
+    display: none;
+}
+
+.swagger-ui .topbar .link:after {
+    content: "🌾 Farm Management API";
+    display: inline-block;
+    font-size: 21px;
+    font-weight: 700;
+    color: white;
+}
+
+/* =========================================================
+    API INFORMATION & VERSION BADGES
+   ========================================================= */
+
+.swagger-ui .info {
+    width: 100%;
+    max-width: none;
+    margin: 35px 0 30px;
+}
+
+.swagger-ui .info .title {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 12px !important;
+    background: #315f3b;
+    color: white !important;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 32px;
+    font-weight: 750;
+    box-shadow: 0 4px 12px rgba(40, 80, 45, 0.15);
+}
+
+/* Container grouping version numbers in Swagger */
+.swagger-ui .info .title span {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin: 0 !important;
+}
+
+/* Main fix for breaking background in API Version */
+.swagger-ui .info .title small,
+.swagger-ui .info .title small.version-stamp {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #3f8750 !important;
+    color: white !important; 
+    border-radius: 7px !important;
+    padding: 6px 12px !important;
+    margin: 0 !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+    box-shadow: none !important;
+}
+
+/* Reset default <pre> styles injected by Swagger into version */
+.swagger-ui .info .title small pre,
+.swagger-ui .info .title small.version-stamp pre {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    color: inherit !important;
+    font-family: inherit !important;
+}
+
+/* Optional hiding of default Swagger dots/pseudo-elements */
+.swagger-ui .info .title small::before,
+.swagger-ui .info .title small::after {
+    display: none !important;
+}
+
+.swagger-ui .info p,
+.swagger-ui .info li {
+    color: #58655b;
+}
+
+.swagger-ui .info a {
+    color: #2f7040;
+}
+
+/* =========================================================
+   SERVERS
+   ========================================================= */
+
+.swagger-ui .scheme-container {
+    width: 100%;
+    background: white;
+    border: 1px solid #dce5dc;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(40, 70, 45, 0.06);
+    padding: 18px 24px;
+}
+
+/* =========================================================
+   TAGS / SECTIONS
+   ========================================================= */
+
+.swagger-ui .opblock-tag {
+    width: 100%;
+    color: #294c31;
+    border-bottom: 1px solid #d9e2d9;
+    font-size: 20px;
+    font-weight: 700;
+    padding: 18px 10px 16px 0;
+}
+
+.swagger-ui .opblock-tag:hover {
+    background: #eef5ee;
+}
+
+.swagger-ui .opblock-tag small {
+    color: #78837a;
+}
+
+/* =========================================================
+   🌾 EMOJI FOR TAGS
+   ========================================================= */
+
+/* Farms */
+.swagger-ui .opblock-tag[data-tag="Farms"] > a:before { content: "🌾 "; }
+/* Animals */
+.swagger-ui .opblock-tag[data-tag="Animals"] > a:before { content: "🐄 "; }
+/* Fields */
+.swagger-ui .opblock-tag[data-tag="Fields"] > a:before { content: "🌱 "; }
+/* Fieldwork */
+.swagger-ui .opblock-tag[data-tag="Fieldwork"] > a:before { content: "🚜 "; }
+/* Crops */
+.swagger-ui .opblock-tag[data-tag="Crops"] > a:before { content: "🌽 "; }
+/* Machines */
+.swagger-ui .opblock-tag[data-tag="Machines"] > a:before { content: "🚜 "; }
+
+/* =========================================================
+   ENDPOINT METHODS (GET / POST / PUT etc.)
+   ========================================================= */
+
+.swagger-ui .opblock.opblock-get {
+    background: #f0f8f1;
+    border-color: #8fc99a;
+}
+
+.swagger-ui .opblock.opblock-get .opblock-summary-method {
+    background: #3f8750;
+}
+
+.swagger-ui .opblock.opblock-post {
+    background: #eef7f9;
+    border-color: #82c3d0;
+}
+
+.swagger-ui .opblock.opblock-post .opblock-summary-method {
+    background: #29879b;
+}
+
+.swagger-ui .opblock.opblock-put {
+    background: #fff8e8;
+    border-color: #e1bd65;
+}
+
+.swagger-ui .opblock.opblock-put .opblock-summary-method {
+    background: #bd8b19;
+}
+
+.swagger-ui .opblock.opblock-patch {
+    background: #f5f0fc;
+    border-color: #bba0d9;
+}
+
+.swagger-ui .opblock.opblock-patch .opblock-summary-method {
+    background: #7651a4;
+}
+
+.swagger-ui .opblock.opblock-delete {
+    background: #fff1f1;
+    border-color: #df9696;
+}
+
+.swagger-ui .opblock.opblock-delete .opblock-summary-method {
+    background: #c74c4c;
+}
+
+/* =========================================================
+   ENDPOINT SUMMARY & HEADER (HORIZONTAL LAYOUT) - FIX
+   ========================================================= */
+
+/* Główny pasek endpointu */
+.swagger-ui .opblock-summary {
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 58px;
+    display: flex !important;
+    align-items: center !important;
+    padding: 0 !important; 
+    box-sizing: border-box;
+}
+
+/* Przycisk grupujący całą zawartość (zajmuje 100% szerokości, zawartość do lewej) */
+.swagger-ui .opblock-summary-control {
+    flex: 1 1 100% !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    margin: 0 !important; /* Usunięto margin-left: auto, które spychało wszystko na prawo */
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    padding: 0 20px 0 10px !important;
+    text-align: left !important;
+    cursor: pointer !important;
+}
+
+/* Znacznik metody (GET / POST / PUT) */
+.swagger-ui .opblock-summary-method {
+    flex: 0 0 80px !important;
+    width: 80px !important;
+    min-width: 80px !important;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px !important;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    box-shadow: none;
+}
+
+/* Ścieżka URL (/farm/) */
+.swagger-ui .opblock-summary-path {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    max-width: none !important;
+    display: block !important;
+    margin-right: 15px !important;
+    color: #26332a !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    white-space: nowrap !important;
+}
+
+/* Opis endpointu - zajmuje całą wolną przestrzeń i spycha ikony w prawo */
+.swagger-ui .opblock-summary-description {
+    flex: 1 1 auto !important; 
+    width: auto !important;
+    max-width: none !important;
+    display: block !important;
+    color: #68736b !important;
+    font-size: 13px !important;
+    text-align: left !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+}
+
+/* Opcjonalne spychacze ikon narzędziowych i strzałki rozwijania na sam koniec */
+.swagger-ui .opblock-summary-control .copy-to-clipboard,
+.swagger-ui .opblock-summary-control > svg:last-of-type {
+    margin-left: 10px !important;
+    flex-shrink: 0;
+}
+
+/* Grouping button & Right arrow (force no line break) */
+.swagger-ui .opblock-summary-control {
+    flex: 0 0 auto !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    margin-left: auto !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    padding: 0 10px !important;
+    text-align: left !important;
+    cursor: pointer !important;
+}
+
+/* =========================================================
+   PARAMETERS
+   ========================================================= */
+
+.swagger-ui .parameters-container {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.60);
+    border: 1px solid rgba(80, 100, 85, 0.10);
+    border-radius: 10px;
+    padding: 8px 14px;
+}
+
+.swagger-ui table thead tr th {
+    color: #3c4d40;
+    font-weight: 700;
+}
+
+.swagger-ui .parameter__name {
+    color: #2f4f35;
+    font-weight: 650;
+}
+
+.swagger-ui .parameter__type {
+    color: #758077;
+}
+
+.swagger-ui .parameter__name.required:after {
+    color: #c74c4c;
+}
+
+/* =========================================================
+   FORMS
+   ========================================================= */
+
+.swagger-ui input[type=text],
+.swagger-ui input[type=password],
+.swagger-ui input[type=email],
+.swagger-ui input[type=number],
+.swagger-ui input[type=search],
+.swagger-ui textarea,
+.swagger-ui select {
+    border: 1px solid #cbd7cc;
+    border-radius: 7px;
+    background: white;
+    color: #26332a;
+    padding: 8px 10px;
+    outline: none;
+}
+
+.swagger-ui input:focus,
+.swagger-ui textarea:focus,
+.swagger-ui select:focus {
+    border-color: #3f8750;
+    box-shadow: 0 0 0 3px rgba(63, 135, 80, 0.12);
+}
+
+/* =========================================================
+   TRY IT OUT
+   ========================================================= */
+
+.swagger-ui .try-out__btn {
+    border: 1px solid #3f8750;
+    border-radius: 7px;
+    color: #2f7040;
+    background: white;
+    font-weight: 650;
+    transition: 0.15s ease;
+}
+
+.swagger-ui .try-out__btn:hover {
+    background: #3f8750;
+    color: white;
+}
+
+.swagger-ui .execute-wrapper {
+    padding: 15px 0;
+}
+
+/* =========================================================
+   EXECUTE & CANCEL
+   ========================================================= */
+
+.swagger-ui .btn.execute {
+    border: none;
+    border-radius: 8px;
+    background: #3f8750;
+    color: white;
+    font-weight: 700;
+    padding: 9px 22px;
+    box-shadow: 0 3px 8px rgba(63, 135, 80, 0.25);
+    transition: 0.15s ease;
+}
+
+.swagger-ui .btn.execute:hover {
+    background: #326f41;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 12px rgba(63, 135, 80, 0.26);
+}
+
+.swagger-ui .btn.cancel {
+    border-radius: 7px;
+}
+
+/* =========================================================
+   RESPONSES
+   ========================================================= */
+
+.swagger-ui .response-col_status {
+    color: #315c3a;
+    font-weight: 700;
+}
+
+.swagger-ui .response-col_description {
+    color: #5f6c62;
+}
+
+/* =========================================================
+    MODELS / SCHEMAS
+   ========================================================= */
+
+.swagger-ui section.models {
+    width: 100%;
+    max-width: none;
+    border: 1px solid #dce5dc;
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 3px 12px rgba(30, 60, 35, 0.06);
+    margin-top: 30px;
+}
+
+.swagger-ui section.models h4 {
+    color: #2f6b3f;
+    font-weight: 750;
+}
+
+.swagger-ui section.models .model-container {
+    background: #fafcf9;
+    border-top: 1px solid #e0e7e0;
+}
+
+.swagger-ui .model-box {
+    background: transparent;
+}
+
+.swagger-ui .model {
+    color: #39463c;
+}
+
+.swagger-ui .model-title {
+    color: #2f6b3f;
+}
+
+.swagger-ui .model .property {
+    color: #4f5d52;
+}
+
+/* =========================================================
+    CODE BLOCKS
+   ========================================================= */
+
+.swagger-ui .highlight-code {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.swagger-ui pre {
+    border-radius: 8px;
+}
+
+.swagger-ui .microlight {
+    background: #202822 !important;
+    color: #e5eee7;
+}
+
+/* =========================================================
+    BUTTONS
+   ========================================================= */
+
+.swagger-ui .btn {
+    border-radius: 7px;
+    transition: 0.15s ease;
+}
+
+.swagger-ui .btn:hover {
+    transform: translateY(-1px);
+}
+
+.swagger-ui .authorization__btn {
+    border-color: #3f8750;
+    color: #2f7040;
+    border-radius: 7px;
+}
+
+.swagger-ui .authorization__btn svg {
+    fill: #3f8750;
+}
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+}
+
+::-webkit-scrollbar-track {
+    background: #edf1ed;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #aab9ac;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #7f9482;
+}
+
+/* =========================================================
+   📱 RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 768px) {
+    .swagger-ui {
+        padding: 0 12px 30px;
+    }
+
+    .swagger-ui .info .title {
+        font-size: 27px;
+    }
+
+    .swagger-ui .opblock-summary-method {
+        min-width: 65px !important;
+        flex-basis: 65px !important;
+    }
+
+    .swagger-ui .opblock-summary-path {
+        font-size: 13px !important;
+    }
+
+    .swagger-ui .opblock-summary-description {
+        display: none !important;
+    }
+
+    .swagger-ui .opblock-body {
+        padding: 15px !important;
+    }
+}
