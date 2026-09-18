@@ -10,7 +10,7 @@ services:
       - 5432:5432
     volumes:
       - management-app:/var/lib/postgresql/data
-      - ./backend/database/farm_management.sql:/docker-entrypoint-initdb.d/farm_management.sql
+      - ./app/database/farm_management.sql:/docker-entrypoint-initdb.d/farm_management.sql
     networks:
       - farm_man
 
@@ -22,6 +22,18 @@ services:
       PGADMIN_DEFAULT_PASSWORD: admin
     ports:
       - 1010:80
+    networks:
+      - farm_man
+
+  api:
+    build: .
+    container_name: farm_api
+    ports:
+      - 8000:8000
+    env_file:
+      - .env
+    depends_on:
+      - postgres
     networks:
       - farm_man
 

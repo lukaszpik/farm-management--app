@@ -28,27 +28,27 @@ class FarmUpdate(BaseModel):
 class Animal(BaseModel):
     id: int
     aid_numer: str = PField(min_length=3)
-    kind: Literal["bydlo", "swinie", "konie", "owce", "kozy"]
+    kind: str
     race: str = PField(min_length=2)
-    utility: Literal["miesny", "mleczny", "ogolnouzytkowy"]
-    sex: Literal["samiec",'samica']
+    utility: str
+    sex: str
     date_of_birth: datetime.date
 
 class AnimalCreate(BaseModel):
     farm_id: int = PField(gt=0)
     aid_numer: str = PField(min_length=3)
-    kind: Literal["bydlo", "swinie", "konie", "owce", "kozy"]
+    kind: str
     race: str = PField(min_length=2)
-    utility: Literal["miesny", "mleczny", "ogolnouzytkowy"]
-    sex: Literal["samiec",'samica']
+    utility: str
+    sex: str
     date_of_birth: datetime.date
 
 class AnimalUpdate(BaseModel):
     aid_numer: str | None = PField(default=None, min_length=3)
-    kind: str | None = Literal["bydlo", "swinie", "konie", "owce", "kozy"]
+    kind: str | None = None
     race: str | None = PField(default=None, min_length=2)
-    utility: str | None = Literal["miesny", "mleczny", "ogolnouzytkowy"]
-    sex: str | None = Literal["samiec",'samica']
+    utility: str | None = None
+    sex: str | None = None
     date_of_birth: datetime.date | None = None
 
 ##FIELDS
@@ -56,18 +56,18 @@ class AnimalUpdate(BaseModel):
 class Field(BaseModel):
     field_id: int 
     farm_id: int = PField(gt=0)
-    type: Literal["grunty_orne", "laka", "sad"]
+    type: str
     position: str
     area: float = PField(gt=0)
 
 class FieldCreate(BaseModel):
     farm_id: int 
-    type: Literal["grunty_orne", "laka", "sad"]
+    type: str
     position: str 
     area: float = PField(gt=0)
 
 class FieldUpdate(BaseModel):
-    type: Literal["grunty_orne", "laka", "sad"] | None = None
+    type: str
     position: str | None = None
     area: float | None = PField(default=None, gt=0)
 
@@ -77,19 +77,19 @@ class Fieldwork(BaseModel):
     field_id: int = PField(gt=0)
     id: int
     type_of_work: str 
-    method: str = Literal["wlasna", "usluga_zewnetrzna"]
+    method: str 
     date: datetime.date
     cost: float = PField(gt=0)
 
 class FieldworkAdd(BaseModel):
     type_of_work: str 
-    method: str = Literal["wlasna", "usluga_zewnetrzna"]
+    method: str 
     date: datetime.date
     cost: float = PField(gt=0)
 
 class FieldworkUpdate(BaseModel):
     type_of_work: str | None = None
-    method: Literal["wlasna", "usluga_zewnetrzna"] | None = None
+    method: str | None = None
     date: datetime.date | None = None
     cost: float | None = PField(default=None,gt=0)
 
