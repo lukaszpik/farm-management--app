@@ -9,7 +9,6 @@ client = TestClient(app)
 ## FARM
 def test_get_all_farms():
     response = client.get("/farm/")
-
     assert response.status_code == 200
 
     data = response.json()
@@ -18,11 +17,9 @@ def test_get_all_farms():
 
 def test_get_farm():
     response = client.get("/farm/1")
-
     assert response.status_code == 200
 
     data = response.json()
-
     assert data["farm_id"] == 1
     assert "name" in data
     assert "fid_numer" in data
@@ -32,7 +29,6 @@ def test_get_farm():
 
 def test_get_farm_not_found():
     response = client.get("/farm/999999")
-
     assert response.status_code == 404
     assert response.json()["detail"] == "Farm with ID 999999 not found."
 
@@ -49,7 +45,6 @@ def test_create_farm():
     assert response.status_code == 200
 
     data = response.json()
-
     assert data["name"] == "TEST FARM11"
     assert data["fid_numer"] == 991
     assert data["position"] == "TEST"
@@ -59,9 +54,7 @@ def test_create_farm():
     assert response.status_code == 200
 
     farms = response.json()
-
     farm_id = next(farm["farm_id"] for farm in farms if farm["fid_numer"] == 991)
-
     response = client.delete(f"/farm/{farm_id}")
     assert response.status_code == 200
     
@@ -94,7 +87,6 @@ def test_update_farm():
     }
 
     response = client.patch(f"/farm/{farm_id}", json=update_data)
-
     assert response.status_code == 200
     assert response.json()["message"] == (f"Farm with ID {farm_id} updated successfully.")
 
@@ -102,7 +94,6 @@ def test_update_farm():
     assert response.status_code == 200
 
     data = response.json()
-
     assert data["name"] == "UPDATED FARM"
     assert data["position"] == "UPDATED POSITION"
 
@@ -125,7 +116,6 @@ def test_delete_farm():
     assert response.status_code == 200
 
     farms = response.json()
-
     farm_id = next(
         farm["farm_id"]
         for farm in farms
@@ -133,19 +123,16 @@ def test_delete_farm():
     )
 
     response = client.delete(f"/farm/{farm_id}")
-
     assert response.status_code == 200
     assert response.json()["message"] == (f"Farm with ID {farm_id} deleted successfully.")
 
     response = client.get(f"/farm/{farm_id}")
-
     assert response.status_code == 404
     assert response.json()["detail"] == (f"Farm with ID {farm_id} not found.")
 
 ## ANIMALS
 def test_get_all_animals():
     response = client.get("/farms/1/animals/")
-
     assert response.status_code == 200
 
     data = response.json()
@@ -153,14 +140,11 @@ def test_get_all_animals():
 
 def test_get_animal():
     response = client.get("/farms/1/animals/1")
-
     assert response.status_code == 200
-
     data = response.json()
 
 def test_get_animal_not_found():
     response = client.get("/farms/1/animals/999999")
-
     assert response.status_code == 404
     assert response.json()["detail"] == "Animal with ID 999999 not found."
 
@@ -179,7 +163,6 @@ def test_add_animal():
     assert response.status_code == 200
 
     data = response.json()
-
     assert data["aid_numer"] == animal["aid_numer"]
     assert data["kind"] == animal["kind"]
     assert data["race"] == animal["race"]
@@ -203,7 +186,6 @@ def test_update_animal():
     }
 
     response = client.post("/farms/1/animals/", json=animal)
-
     assert response.status_code == 200
     animal_id = response.json()["id"]
 
@@ -212,20 +194,14 @@ def test_update_animal():
         "race": "Limousine"
     }
 
-    response = client.patch(
-        f"/farms/1/animals/{animal_id}",
-        json=update_data)
-
+    response = client.patch(f"/farms/1/animals/{animal_id}", json=update_data)
     assert response.status_code == 200
-    assert response.json()["message"] == (
-        f"Animal with ID {animal_id} updated successfully.")
+    assert response.json()["message"] == (f"Animal with ID {animal_id} updated successfully.")
 
     response = client.get(f"/farms/1/animals/{animal_id}")
-
     assert response.status_code == 200
 
     data = response.json()
-
     assert data["utility"] == "miesny"
     assert data["race"] == "Limousine"
 
@@ -245,22 +221,16 @@ def test_delete_animal():
     }
 
     response = client.post("/farms/1/animals/", json=animal)
-
     assert response.status_code == 200
     animal_id = response.json()["id"]
 
-    response = client.delete(
-        f"/farms/1/animals/{animal_id}")
-
+    response = client.delete(f"/farms/1/animals/{animal_id}")
     assert response.status_code == 200
-    assert response.json()["message"] == (
-        f"Animal with ID {animal_id} deleted successfully.")
-    response = client.get(
-        f"/farms/1/animals/{animal_id}")
+    assert response.json()["message"] == (f"Animal with ID {animal_id} deleted successfully.")
 
+    response = client.get(f"/farms/1/animals/{animal_id}")
     assert response.status_code == 404
-    assert response.json()["detail"] == (
-        f"Animal with ID {animal_id} not found.")
+    assert response.json()["detail"] == (f"Animal with ID {animal_id} not found.")
 
 ## CROPS
 
@@ -292,7 +262,6 @@ def test_get_crop():
 def test_get_crop_not_found():
     response = client.get("/farms/1/fields/1/crops/NIEISTNIEJACY_CROP")
     assert response.status_code == 404
-
     assert response.json()["detail"] == ("Crop with name NIEISTNIEJACY_CROP not found." )
 
 def test_add_crop():
@@ -325,8 +294,6 @@ def test_add_crop():
     delete_response = client.delete(f"/farms/1/fields/1/crops/{crop_id}")
     assert delete_response.status_code == 200
 
-
-
 def test_update_crop():
     crop = {
         "name": "TEST-CROP-PATCH",
@@ -352,8 +319,8 @@ def test_update_crop():
 
     response = client.patch(f"/farms/1/fields/1/crops/{crop_id}", json=update_data)
     assert response.status_code == 200
-    response = client.get("/farms/1/fields/1/crops/TEST-CROP-PATCH")
 
+    response = client.get("/farms/1/fields/1/crops/TEST-CROP-PATCH")
     assert response.status_code == 200
 
     data = response.json()
@@ -438,7 +405,6 @@ def test_add_field():
     response = client.delete(f"/farms/1/fields/{field_id}")
     assert response.status_code == 200
 
-
 def test_update_field():
     field = {
         "farm_id": 1,
@@ -456,10 +422,7 @@ def test_update_field():
         "area": 25.5
     }
 
-    response = client.patch(
-        f"/farms/1/fields/{field_id}",
-        json=update_data
-    )
+    response = client.patch(f"/farms/1/fields/{field_id}", json=update_data)
     assert response.status_code == 200
     assert response.json()["message"] == (f"Field with ID {field_id} from Farm 1 updated successfully.")
 
@@ -602,11 +565,9 @@ def test_add_machine():
         "/farms/1/machines/",
         json=machine_data
     )
-
     assert response.status_code == 200
 
     data = response.json()
-
     assert data["type"] == "ciągnik"
     assert data["name"] == "Testowy ciągnik"
     assert data["model"] == "Test 500"
@@ -622,22 +583,14 @@ def test_update_machine():
         "/farms/1/machines/1",
         json=update_data
     )
-
     assert response.status_code == 200
-
 
 def test_update_nonexistent_machine():
     update_data = {
         "name": "Zaktualizowana maszyna"
     }
-
-    response = client.patch(
-        "/farms/1/machines/999999",
-        json=update_data
-    )
-
+    response = client.patch(f"/farms/1/machines/999999", json=update_data)
     assert response.status_code == 200
-
 
 def test_delete_machine():
     machine_data = {
@@ -655,7 +608,6 @@ def test_delete_machine():
         if machine["name"] == "TEST Ursus":
             machine_id = machine["id"]
             break
-
     assert machine_id is not None
 
     response = client.delete(f"/farms/1/machines/{machine_id}")
@@ -677,7 +629,6 @@ def test_add_financial_record():
     assert response.status_code == 200
 
     data = response.json()
-
     assert data["type"] == "przychod"
     assert data["category"] == "paliwo"
     assert data["amount"] == 5000
@@ -689,12 +640,10 @@ def test_add_financial_record():
     assert response.status_code == 200 
     records = response.json() 
  
-
     for record in records: 
         if ( record["category"] == "paliwo" and record["date"] == "2026-09-18" and record["info"] == "test financial record" ): 
             finance_id = record["id"] 
             break 
-
     assert finance_id is not None
 
     with connection.cursor() as cursor:
@@ -729,8 +678,7 @@ def test_update_financial_record():
     for record in records: 
             if (record["category"] == "paliwo" and record["date"] == "2026-09-18" and record["info"] == "test financial record" ): 
                 finance_id = record["id"] 
-                break 
-    
+                break  
     assert finance_id is not None
 
     patch = client.patch(f"/farms/1/finances/", params={"id": finance_id}, json=update_data)
@@ -745,8 +693,8 @@ def test_update_financial_record():
 def test_get_financial_summary():
     response = client.get(f"/farms/1/finances/summary",params={"date_from": "2026-01-01", "date_to": "2026-12-31"})
     assert response.status_code == 200
-    data = response.json()
 
+    data = response.json()
     assert "income" in data
     assert "costs" in data
 
