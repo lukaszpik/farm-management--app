@@ -1,6 +1,6 @@
 name: CI
 
-on: 
+on:
     push:
     pull_request:
 
@@ -8,10 +8,29 @@ jobs:
     test:
         runs-on: ubuntu-latest
 
+        services:
+            postgres:
+                image: postgres:17
+                env:
+                    POSTGRES_USER: postgres
+                    POSTGRES_PASSWORD: admin
+                    POSTGRES_DB: farm-management
+                ports:
+                    - 5432:5432
+
         steps:
             - uses: actions/checkout@v6
             - uses: actions/setup-python@v7
               with:
-                  python-version: 3.14
-            - run: pip install -r "requirements.txt"
-            - run: pytest -v
+                  python-version: "3.14"
+
+            - name: Install dependencies
+              run: pip install -r requirements.txt
+            
+            - name: Initialize database
+              run: psql -h localhost -U postgres -d farm-management -f app/database/farm_management.sql
+              env:
+                  PGPASSWORD: admin
+            
+            - name: Run tests
+              run: pytest -v
