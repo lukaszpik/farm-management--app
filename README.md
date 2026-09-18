@@ -113,4 +113,4 @@ The PostgreSQL data is stored in a Docker volume, so it persists between contain
 
 License
 
-This project was created as a university project.
+This project was created as a personal project.

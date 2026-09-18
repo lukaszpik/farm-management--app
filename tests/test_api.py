@@ -251,7 +251,7 @@ def test_get_all_crops():
 
 
 def test_get_crop():
-    response = client.get("/farms/1/fields/1/crops/pszenica")
+    response = client.get("/farms/1/fields/1/crops/kukurydza")
     assert response.status_code == 200
 
     data = response.json()
