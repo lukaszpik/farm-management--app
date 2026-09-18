@@ -2,13 +2,13 @@ from fastapi import APIRouter
 from ..repositories import repo_fieldwork
 from ..schemas.schemas import Fieldwork, FieldworkAdd, FieldworkUpdate
 
-fieldwork = APIRouter(prefix="/farms/{farm_id}/fields/{field_id}/fieldworks")
+fieldwork = APIRouter(prefix="/farms/{farm_id}/fields/{field_id}/fieldworks", tags=["Fieldwork"])
 
 @fieldwork.get("/", response_model=list[Fieldwork])
 def get_all_fieldworks(farm_id: int, field_id: int):
     return repo_fieldwork.get_all_fieldworks(farm_id, field_id)
 
-@fieldwork.get("/{id}", response_model=list[Fieldwork])
+@fieldwork.get("/{type_of_work}", response_model=list[Fieldwork])
 def get_fieldwork(farm_id: int, field_id: int, type_of_work: str):
     return repo_fieldwork.get_fieldwork(farm_id, field_id, type_of_work)
 

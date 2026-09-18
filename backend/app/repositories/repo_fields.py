@@ -4,7 +4,7 @@ from ..schemas.schemas import FieldUpdate, FieldCreate
 
 def get_all_fields(farm_id: int):
     with connection.cursor() as cursor:
-        cursor.execute("SELECT * FROM fields WHERE farm_id = %s",  (farm_id))
+        cursor.execute("SELECT * FROM fields WHERE farm_id = %s",  (farm_id,))
         result = cursor.fetchall()
     return result
 
@@ -43,8 +43,8 @@ def update_field(farm_id: int, field_id: int, field: FieldUpdate):
         fields.append(f"{field_name} = %s")
         values.append(value)
 
-    values.append(field_id)
     values.append(farm_id)
+    values.append(field_id)
     query = f"UPDATE fields SET {', '.join(fields)} WHERE farm_id = %s AND field_id = %s RETURNING *"
 
     try:

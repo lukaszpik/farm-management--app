@@ -3,7 +3,7 @@ from ..schemas.schemas import FinancialRecords, FinancialSummary, FinancialRecor
 from ..repositories import repo_finances
 import datetime
 
-finances = APIRouter(prefix="/farms/{farm_id}/finances")
+finances = APIRouter(prefix="/farms/{farm_id}/finances", tags=["Finances"])
 
 @finances.get("/", response_model=list[FinancialRecords])
 def get_all_financial_records(farm_id: int):

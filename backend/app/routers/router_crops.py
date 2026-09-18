@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from ..repositories import repo_crops
 from ..schemas.schemas import Crops, CropsUpdate, CropsAdd
 
-crops = APIRouter(prefix="/farms/{farm_id}/fields/{field_id}/crops")
+crops = APIRouter(prefix="/farms/{farm_id}/fields/{field_id}/crops", tags=["Crops"])
 
 @crops.get("/", response_model=list[Crops])
 def get_all_crops(farm_id: int, field_id: int):

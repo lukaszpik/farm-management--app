@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from ..repositories import repo_animal
 from ..schemas.schemas import Animal, AnimalCreate, AnimalUpdate
 
-animal = APIRouter(prefix="/farms/{farm_id}/animals")
+animal = APIRouter(prefix="/farms/{farm_id}/animals", tags=["Animals"])
 
 
 @animal.get("/", response_model=list[Animal])

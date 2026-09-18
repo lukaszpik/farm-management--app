@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from ..repositories import repo_fields
 from ..schemas.schemas import Field, FieldCreate, FieldUpdate
 
-field = APIRouter(prefix="/farms/{farm_id}/fields")
+field = APIRouter(prefix="/farms/{farm_id}/fields", tags=["Fields"])
 
 @field.get("/", response_model=list[Field])
 def get_all_fields(farm_id: int):
@@ -16,7 +16,7 @@ def get_field(farm_id: int, field_id: int):
 def add_field(farm_id: int, field: FieldCreate):
     return repo_fields.add_field(farm_id, field)
 
-@field.patch("/{field_id}", response_model=Field)
+@field.patch("/{field_id}")
 def update_field(farm_id: int, field_id: int, field: FieldUpdate):
     return repo_fields.update_field(farm_id, field_id, field)
 

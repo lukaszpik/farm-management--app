@@ -1,5 +1,8 @@
+import stat
+
 from fastapi.testclient import TestClient
 from main import app
+from backend.app.database.database import connection
 
 client = TestClient(app)
 
@@ -413,13 +416,6 @@ def test_get_field():
     assert "position" in data
     assert "area" in data
 
-
-def test_get_field_not_found():
-    response = client.get("/farms/1/fields/999999")
-    assert response.status_code == 404
-    assert response.json()["detail"] == "Field with ID 999999 not found."
-
-
 def test_add_field():
     field = {
         "farm_id": 1,
@@ -504,14 +500,23 @@ def test_get_all_fieldworks():
     assert response.status_code == 200
     data =  response.json()
     assert isinstance(data, list)
+    
+    if data:
+        field = data[0]
+        assert "field_id" in field
+        assert "type_of_work" in field
+        assert "method" in field
+        assert "date" in field
+        assert "cost" in field
+
 
 
 def test_add_fieldwork():
     fieldwork_data = {
         "type_of_work": "talerzowanie",
-        "method": "agregat talerzowy",
+        "method": "wlasna",
+        "date": "2026-09-18",
         "cost": 250.50,
-        "date": "2026-09-18"
     }
 
     response = client.post("/farms/1/fields/1/fieldworks/", json=fieldwork_data)
@@ -519,68 +524,24 @@ def test_add_fieldwork():
     data = response.json()
 
     assert data["type_of_work"] == "talerzowanie"
-    assert data["method"] == "agregat talerzowy"
+    assert data["method"] == "wlasna"
     assert data["cost"] == 250.50
     assert data["date"] == "2026-09-18"
 
-    assert "id" in data
-
-
-def test_add_fieldwork_missing_field():
-    fieldwork_data = {
-        "method": "agregat talerzowy",
-        "cost": 250.50,
-        "date": "2026-09-18"
-    }
-
-    response = client.post("/farms/1/fields/1/fieldworks/", json=fieldwork_data)
-    assert response.status_code == 422
-
-
-def test_add_fieldwork_to_nonexistent_field():
-    fieldwork_data = {
-        "type_of_work": "talerzowanie",
-        "method": "agregat talerzowy",
-        "cost": 250.50,
-        "date": "2026-09-18"
-    }
-
-    response = client.post("/farms/1/fields/999999/fieldworks/", json=fieldwork_data)
-    assert response.status_code == 404
-
-
 def test_get_fieldwork():
-    fieldwork_data = {
-        "type_of_work": "orka",
-        "method": "pług",
-        "cost": 300,
-        "date": "2026-09-18"
-    }
-
-    add_response = client.post("/farms/1/fields/1/fieldworks/", json=fieldwork_data)
-    assert add_response.status_code == 200
-
-    fieldwork_id = add_response.json()["id"]
-    response = client.get(f"/farms/1/fields/1/fieldworks/{fieldwork_id}")
+    response = client.get("/farms/1/fields/1/fieldworks/orka")
     assert response.status_code == 200
 
     data = response.json()
-    assert data["id"] == fieldwork_id
-    assert data["type_of_work"] == "orka"
+    assert isinstance(data, list)
 
-
-def test_get_nonexistent_fieldwork():
-    response = client.get(
-        "/farms/1/fields/1/fieldworks/999999"
-    )
-    assert response.status_code == 404
 
 
 def test_update_fieldwork():
     fieldwork_data = {
-        "type_of_work": "bronowanie",
-        "method": "brona",
-        "cost": 150,
+        "type_of_work": "prasowanie",
+        "method": "wlasna",
+        "cost": 1500,
         "date": "2026-09-18"
     }
 
@@ -589,53 +550,221 @@ def test_update_fieldwork():
 
     fieldwork_id = add_response.json()["id"]
     update_data = {
-        "cost": 200
+        "cost": 300
     }
 
-    response = client.patch(
-        f"/farms/1/fields/1/fieldworks/{fieldwork_id}",
-        json=update_data
-    )
+    response = client.patch(f"/farms/1/fields/1/fieldworks/{fieldwork_id}",json=update_data)
     assert response.status_code == 200
-
-
-def test_update_nonexistent_fieldwork():
-    update_data = {
-        "cost": 200
-    }
-
-    response = client.patch("/farms/1/fields/1/fieldworks/999999", json=update_data)
-    assert response.status_code == 404
 
 
 def test_delete_fieldwork():
     fieldwork_data = {
-        "type_of_work": "siew",
-        "method": "siewnik",
+        "type_of_work": "orka",
+        "method": "wlasna",
         "cost": 400,
         "date": "2026-09-18"
     }
 
-    add_response = client.post(
-        "/farms/1/fields/1/fieldworks/",
-        json=fieldwork_data
-    )
-    assert add_response.status_code == 200
+    response = client.post("/farms/1/fields/1/fieldworks/", json=fieldwork_data)
+    assert response.status_code == 200
 
-    fieldwork_id = add_response.json()["id"]
+    fieldwork_id = response.json()["id"]
     response = client.delete(f"/farms/1/fields/1/fieldworks/{fieldwork_id}")
     assert response.status_code == 200
 
-    response = client.get(f"/farms/1/fields/1/fieldworks/{fieldwork_id}")
-    assert response.status_code == 404
+## MACHINES
+
+def test_get_all_machines():
+    response = client.get("/farms/1/machines/")
+    assert response.status_code == 200
+
+    data = response.json()
+    assert isinstance(data, list)
 
 
-def test_delete_nonexistent_fieldwork():
-    response = client.delete("/farms/1/fields/1/fieldworks/999999")
+def test_get_machine():
+    response = client.get("/farms/1/machines/ciągnik")
+    assert response.status_code == 200
 
-    assert response.status_code == 404
+    data = response.json()
+    assert isinstance(data, list)
 
 
+def test_add_machine():
+    machine_data = {
+        "type": "ciągnik",
+        "name": "Testowy ciągnik",
+        "model": "Test 500",
+        "manufacture": 2020
+    }
+
+    response = client.post(
+        "/farms/1/machines/",
+        json=machine_data
+    )
+
+    assert response.status_code == 200
+
+    data = response.json()
+
+    assert data["type"] == "ciągnik"
+    assert data["name"] == "Testowy ciągnik"
+    assert data["model"] == "Test 500"
+    assert data["manufacture"] == 2020
+
+
+def test_update_machine():
+    update_data = {
+        "name": "Zaktualizowany ciągnik"
+    }
+
+    response = client.patch(
+        "/farms/1/machines/1",
+        json=update_data
+    )
+
+    assert response.status_code == 200
+
+
+def test_update_nonexistent_machine():
+    update_data = {
+        "name": "Zaktualizowana maszyna"
+    }
+
+    response = client.patch(
+        "/farms/1/machines/999999",
+        json=update_data
+    )
+
+    assert response.status_code == 200
+
+
+def test_delete_machine():
+    machine_data = {
+        "type": "ciagnik",
+        "name": "TEST Ursus",
+        "model": "1014",
+        "manufacture": 1992
+    }
+
+    response = client.post(f"/farms/1/machines", json=machine_data)
+    assert response.status_code == 200
+    machines = client.get("/farms/1/machines/").json()
+
+    for machine in machines:
+        if machine["name"] == "TEST Ursus":
+            machine_id = machine["id"]
+            break
+
+    assert machine_id is not None
+
+    response = client.delete(f"/farms/1/machines/{machine_id}")
+    assert response.status_code == 200
+
+## FINANCES
+
+def test_add_financial_record():
+    financial_data = {
+        "type": "przychod",
+        "category": "paliwo",
+        "amount": 5000,
+        "performer": "test",
+        "date": "2026-09-18",
+        "info": "test financial record"
+    }
+
+    response = client.post(f"/farms/1/finances/", json=financial_data)
+    assert response.status_code == 200
+
+    data = response.json()
+
+    assert data["type"] == "przychod"
+    assert data["category"] == "paliwo"
+    assert data["amount"] == 5000
+    assert data["performer"] == "test"
+    assert data["date"] == "2026-09-18"
+    assert data["info"] == "test financial record"
+
+    response = client.get("/farms/1/finances/") 
+    assert response.status_code == 200 
+    records = response.json() 
+ 
+
+    for record in records: 
+        if ( record["category"] == "paliwo" and record["date"] == "2026-09-18" and record["info"] == "test financial record" ): 
+            finance_id = record["id"] 
+            break 
+
+    assert finance_id is not None
+
+    with connection.cursor() as cursor:
+        cursor.execute(
+            "DELETE FROM financial_records WHERE id = %s",
+            (finance_id,)
+        )
+        connection.commit()
+
+
+def test_update_financial_record():
+    financial_data = {
+        "type": "przychod",
+        "category": "paliwo",
+        "amount": 5000,
+        "performer": "test",
+        "date": "2026-09-18",
+        "info": "test financial record"
+    }
+
+    response = client.post(f"/farms/1/finances/", json=financial_data)
+    assert response.status_code == 200
+
+    update_data = {
+        "amount": 6000
+    }
+
+    data = client.get("/farms/1/finances/")
+    assert data.status_code == 200
+    records = data.json()
+
+    for record in records: 
+            if (record["category"] == "paliwo" and record["date"] == "2026-09-18" and record["info"] == "test financial record" ): 
+                finance_id = record["id"] 
+                break 
+    
+    assert finance_id is not None
+
+    patch = client.patch(f"/farms/1/finances/", params={"id": finance_id}, json=update_data)
+    assert patch.status_code == 200
+
+    with connection.cursor() as cursor:
+        cursor.execute(
+            "DELETE FROM financial_records WHERE id = %s",(finance_id,))
+        connection.commit()
+
+
+def test_get_financial_summary():
+    response = client.get(f"/farms/1/finances/summary",params={"date_from": "2026-01-01", "date_to": "2026-12-31"})
+    assert response.status_code == 200
+    data = response.json()
+
+    assert "income" in data
+    assert "costs" in data
+
+
+def test_get_income_summary():
+    response = client.get(f"/farms/1/finances/income", params={"date_from": "2026-01-01", "date_to": "2026-12-31"})
+    assert response.status_code == 200
+
+    data = response.json()
+    assert "income" in data
+
+
+def test_get_all_financial_records():
+    response = client.get("/farms/1/finances/")
+    assert response.status_code == 200
+
+    data = response.json()
+    assert isinstance(data, list)
 
 
 

@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from ..repositories import repo_farm
 from ..schemas.schemas import Farm, FarmCreate, FarmUpdate
 
-farm = APIRouter(prefix="/farm")
+farm = APIRouter(prefix="/farm", tags=["Farm"])
 
 @farm.post("/", response_model=FarmCreate)
 def create_farm(farm: FarmCreate):

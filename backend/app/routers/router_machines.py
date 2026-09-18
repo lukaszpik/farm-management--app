@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from ..repositories import repo_machines
 from ..schemas.schemas import Machines, MachineUpdate, MachineAdd
 
-machines = APIRouter(prefix="/farms/{farm_id}/machines")
+machines = APIRouter(prefix="/farms/{farm_id}/machines", tags=["Machines"])
 
 
 @machines.get("/", response_model=list[Machines])
